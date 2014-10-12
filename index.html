@@ -1,0 +1,74 @@
+﻿<!DOCTYPE""http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Life</title>
+    <script type="text/javascript" src="lib/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui-1.8.23.custom.min.js"></script>
+    <script type="text/javascript" src="lib/calc.js"></script>
+    <script type="text/javascript" src="lib/draw.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //speed
+            LIFE.speed = 250;
+            
+            LIFE.width = 40;
+            LIFE.height = 30;//size поля
+            LIFE.play = function () {
+                LIFE.draw.updateGrid(LIFE.calc.matrixTick().getMatrix());
+                LIFE.timeout = setTimeout(function () {
+                    LIFE.play();//step
+                }, LIFE.speed);
+            }
+            LIFE.manualDraw = function (id) {
+                LIFE.draw.updateGrid(LIFE.calc.changeCell(id).getMatrix());
+            };
+            LIFE.defaultSpeedSetting = 1;
+            LIFE.init = function () {
+                document.getElementById("life").appendChild(
+                        LIFE.draw.drawTable(LIFE.width, LIFE.height).updateGrid(
+                                LIFE.calc.initMatrix(LIFE.width, LIFE.height).getMatrix()
+                        ).getTable()
+                );
+            };
+            LIFE.init();
+            $("#play").click(function () {
+                LIFE.play();
+                return false;
+            });
+        });
+    </script>
+    <link rel="stylesheet" href="css/flick/jquery-ui-1.8.23.custom.css" type="text/css" media="all"/>
+    <style type="text/css">
+        .live, .dead {
+            width: 10px;
+            height: 10px;
+        }
+        .live {
+            background-color: black;
+        }
+
+        .dead {
+            background-color: white;
+        }
+        table.life td {
+            
+            border-style:solid;
+            border-width: 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <span  style="font-size: 1em"><a href="#" id="play">Play</a></span>
+
+<table class="container">
+    <tr>
+        <td>
+
+            <div id="life"></div>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
